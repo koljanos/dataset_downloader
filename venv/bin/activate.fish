@@ -57,7 +57,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/fablab1/Documents/Develop/youtube_download/venv"
+set -gx VIRTUAL_ENV "/Users/fablab1/Documents/Develop/bububu4/dataset_downloader/venv"
 
 # https://github.com/fish-shell/fish-shell/issues/436 altered PATH handling
 if test (echo $FISH_VERSION | tr "." "\n")[1] -lt 3

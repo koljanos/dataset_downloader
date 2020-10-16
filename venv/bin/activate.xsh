@@ -28,7 +28,7 @@ def _deactivate(args):
 _deactivate(["nondestructive"])
 aliases["deactivate"] = _deactivate
 
-$VIRTUAL_ENV = r"/Users/fablab1/Documents/Develop/youtube_download/venv"
+$VIRTUAL_ENV = r"/Users/fablab1/Documents/Develop/bububu4/dataset_downloader/venv"
 
 $_OLD_VIRTUAL_PATH = $PATH
 $PATH = $PATH[:]

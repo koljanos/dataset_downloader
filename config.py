@@ -1,3 +1,3 @@
 spisok = ["push up"]
 number = 10
-folders = ["train", "val"]
+folders = ["train", "val", "test"]

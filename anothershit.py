@@ -1,6 +1,20 @@
-from __future__ import unicode_literals
-import youtube_dl
+import os
 
-ydl_opts = {}
-with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-    ydl.download(['https://www.youtube.com/watch?v=BaW_jenozKc'])
+class Navigator():
+    def __init__(self):
+        self.cwd = os.getcwd()
+    def createFolder(self, name, level):
+        if len(level) >= 0:
+            self.cwd = self.cwd + "{}/".format(level)
+            print(self.cwd, self.cwd+"{}/".format(name))
+        try:
+            os.mkdir(self.cwd+"{}/".format(name))
+            print("Created the {} folder".format(name))
+        except FileExistsError:
+            print("mybad, folder {} already there".format(name))
+        if len(level) >= 0:
+            self.cwd = self.cwd[: -len(level)]
+
+navigator = Navigator()
+navigator.createFolder("Downloads","")
+navigator.createFolder("test","Downloads")

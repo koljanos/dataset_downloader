@@ -46,10 +46,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV='/Users/macbookairstepan/dataset_downloader/venv'
-if ([ "$OSTYPE" = "cygwin" ] || [ "$OSTYPE" = "msys" ]) && $(command -v cygpath &> /dev/null) ; then
-    VIRTUAL_ENV=$(cygpath -u "$VIRTUAL_ENV")
-fi
+VIRTUAL_ENV="/Users/fablab1/Documents/Develop/bububu4/dataset_downloader/venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

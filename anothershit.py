@@ -1,4 +1,5 @@
 import os
+import csv
 
 class Navigator():
     def __init__(self):
@@ -18,3 +19,4 @@ class Navigator():
 navigator = Navigator()
 navigator.createFolder("Downloads","")
 navigator.createFolder("test","Downloads")
+

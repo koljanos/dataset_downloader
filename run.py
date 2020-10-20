@@ -6,4 +6,4 @@ classesList = config.spisok
 folderList = config.folders
 
 session = ConfigData(numberOfVideos ,classesList ,folderList)
-download = DownloadLogic(session)
+download = DownloadLogic(session) [::]

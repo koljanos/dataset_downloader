@@ -35,12 +35,12 @@ class ConfigData():
                 self.val = list(reader)
                 self.classesDict["val"] = self.val
                 print('Added {} elements to classesDict["{}"]'.format(
-                    len(self.train), folderName))
+                    len(self.val), folderName))
             elif folderName == "test":
                 self.test = list(reader)
                 self.classesDict["test"] = self.test
                 print('Added {} elements to classesDict["{}"]'.format(
-                    len(self.train), folderName))
+                    len(self.test), folderName))
             else:
                 raise NameError(
                     'Got {}, exected ["train","eval","test"]'.format(folderName))
@@ -64,7 +64,7 @@ class DownloadLogic():
 
     def getAllClasses(self, folderName):
         for elem in self.configDataObj.classesList:
-            self.navigator.createFolder(self, "/Downloads/{}".format(folderName))
+            self.navigator.createFolder(elem, "/Downloads/{}".format(folderName))
             self.getVideos(folderName, elem)
 
     def getVideos(self, folderName, className):
@@ -100,7 +100,7 @@ class DownloadLogic():
     def clipVideo(self, folder, index):
         arr = os.listdir(self.cwd + "/tmp/")
         elem = arr[0]
-        if folder == "train" or folder == "eval":
+        if folder == "train" or folder == "val":
             if "mp4" in elem:
                 ffmpeg_extract_subclip(self.cwd + "/tmp/vidos.mp4", self.videometa.start_time,
                                        self.videometa.end_time, targetname=self.cwd + "/Downloads/{}/{}/test{}.mp4".format(folder, self.videometa.classname, index))
@@ -114,11 +114,13 @@ class DownloadLogic():
             elif "mkv" in elem:
                 ffmpeg_extract_subclip(self.cwd + "/tmp/vidos.mkv", self.videometa.start_time, self.videometa.end_time,
                                        targetname=self.cwd + "/Downloads/{}/test{}.mkv".format(folder, index))
-        os.remove(cwd + "/tmp/" + elem)
+        os.remove(self.cwd + "/tmp/" + elem)
+
 
 class VideoMeta():
     def __init__(self, configDataObj, index, folder):
         row = configDataObj.classesDict[folder][index]
+        self.folder = folder
         try:
             self.classname = row["class"]
         except KeyError:
@@ -130,13 +132,15 @@ class VideoMeta():
             index, self.id, self.start_time, self.end_time))
 
     def isValidClass(self, inclassname):
-        return inclassname == self.classname
+        return inclassname == self.classname or self.folder == "test"
+
 
 class Navigator():
     def __init__(self):
         self.cwd = os.getcwd()
         print("========================")
         print(self.cwd)
+
     def createFolder(self, name, level):
         if len(level) >= 0:
             self.cwd = os.getcwd() + "/{}/".format(level)

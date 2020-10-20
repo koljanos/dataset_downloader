@@ -6,6 +6,12 @@ from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 import config
 
 
+def convert_avi_to_mp4(avi_file_path, output_name):
+    os.popen("ffmpeg -i '{input}' -ac 2 -b:v 2000k -c:a aac -c:v libx264 -b:a 160k -vprofile high -bf 0 -strict experimental -f mp4 '{output}.mp4'".format(
+        input=avi_file_path, output=output_name))
+    return True
+
+
 class ConfigData():
     def __init__(self, numberOfVideos, classesList, folderList):
         self.navigator = Navigator()
@@ -64,7 +70,8 @@ class DownloadLogic():
 
     def getAllClasses(self, folderName):
         for elem in self.configDataObj.classesList:
-            self.navigator.createFolder(elem, "/Downloads/{}".format(folderName))
+            self.navigator.createFolder(
+                elem, "/Downloads/{}".format(folderName))
             self.getVideos(folderName, elem)
 
     def getVideos(self, folderName, className):
@@ -107,6 +114,7 @@ class DownloadLogic():
             elif "mkv" in elem:
                 ffmpeg_extract_subclip(self.cwd + "/tmp/vidos.mkv", self.videometa.start_time, self.videometa.end_time,
                                        targetname=self.cwd + "/Downloads/{}/{}/test{}.mkv".format(folder, self.videometa.classname, index))
+
         else:
             if "mp4" in elem:
                 ffmpeg_extract_subclip(self.cwd + "/tmp/vidos.mp4", self.videometa.start_time,
@@ -114,6 +122,7 @@ class DownloadLogic():
             elif "mkv" in elem:
                 ffmpeg_extract_subclip(self.cwd + "/tmp/vidos.mkv", self.videometa.start_time, self.videometa.end_time,
                                        targetname=self.cwd + "/Downloads/{}/test{}.mkv".format(folder, index))
+
         os.remove(self.cwd + "/tmp/" + elem)
 
 
@@ -128,8 +137,8 @@ class VideoMeta():
         self.id = row["video_id"]
         self.start_time = int(row["kinetics_start"])
         self.end_time = int(row["kinetics_end"])
-        print("got meta for index {}, with id: {} , {}, {}".format(
-            index, self.id, self.start_time, self.end_time))
+        #print("got meta for index {}, with id: {} , {}, {}".format(
+        #    index, self.id, self.start_time, self.end_time))
 
     def isValidClass(self, inclassname):
         return inclassname == self.classname or self.folder == "test"
@@ -153,3 +162,17 @@ class Navigator():
             print("mybad, folder {} already there".format(name))
         if len(level) >= 0:
             self.cwd = self.cwd[: 1-len(level)]
+
+
+class Cleanup():
+    def __init__(self, configDataObj):
+        self.classesList = configDataObj.classesList
+        self.folderList= configDataObj.folderList
+        self.cwd = os.getcwd()
+        for folder in self.folderList:
+            for classs in self.classesList:
+                arr = os.listdir(self.cwd + "/Downloads/{}/{}/".format(folder,classs))
+                for video in arr:
+                    if str(video).endswith("mkv"):
+                        print(type(video), video)
+                        #convert_avi_to_mp4(video, video.replace("mkv", "mp4"))

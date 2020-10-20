@@ -1,3 +1,3 @@
-spisok = ["squat"]
-number = 2
+spisok = ["squat", "push up"]
+number = 20
 folders = ["test", "val", "train"]

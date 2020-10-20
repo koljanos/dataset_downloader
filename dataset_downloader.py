@@ -171,8 +171,27 @@ class Cleanup():
         self.cwd = os.getcwd()
         for folder in self.folderList:
             for classs in self.classesList:
-                arr = os.listdir(self.cwd + "/Downloads/{}/{}/".format(folder,classs))
+                if folder == "test":
+                    path = self.cwd + "/Downloads/{}/".format(folder)
+                else:
+                    path = self.cwd + "/Downloads/{}/{}/".format(folder,classs)
+                arr = os.listdir(path)
                 for video in arr:
                     if str(video).endswith("mkv"):
                         print(type(video), video)
-                        #convert_avi_to_mp4(video, video.replace("mkv", "mp4"))
+                        #convert_avi_to_mp4(path + video, path + video.replace(".mkv", ""))
+                        print(path + video.replace(".mkv","") + ".mkv")
+                        os.remove(path + video)
+#        for folder in self.folderList:
+#            for classs in self.classesList:
+#                if folder == "test":
+#                    path = self.cwd + "/Downloads/{}/".format(folder)
+#                else:
+#                    path = self.cwd + "/Downloads/{}/{}/".format(folder,classs)
+#                arr = os.listdir(path)
+#                for file in arr:
+#                    if not ("mp4" in file):
+#                        os.remove(path + file)
+
+        
+        print("Cleanup = done!!")
